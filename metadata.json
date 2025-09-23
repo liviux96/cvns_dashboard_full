@@ -1,0 +1,5 @@
+{
+  "name": "CVNS Outbound Dashboard",
+  "description": "A dynamic landing page for the CVNS Outbound Warehouse Dashboard, featuring an animated background and a system clock.",
+  "requestFramePermissions": []
+}
