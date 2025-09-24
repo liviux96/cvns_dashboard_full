@@ -3,6 +3,7 @@ import AnimatedBackground from './components/AnimatedBackground';
 import SystemClock from './components/SystemClock';
 import DashboardButton from './components/DashboardButton';
 import TruckMonitor from './pages/TruckMonitor';
+import ProductivityMonitor from './pages/ProductivityMonitor';
 
 const TruckIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10">
@@ -33,6 +34,12 @@ const ArrowLeftIcon = () => (
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState('main');
 
+  // FIX: Replaced JSX.Element with React.ReactElement to resolve "Cannot find namespace 'JSX'" error.
+  const pageConfig: {[key: string]: {title: string, component: React.ReactElement}} = {
+    'truckMonitor': { title: 'Truck Monitor', component: <TruckMonitor /> },
+    'productivityMonitor': { title: 'Productivity Monitor', component: <ProductivityMonitor /> }
+  };
+
   const renderMainPage = () => (
     <div className="flex-grow flex flex-col items-center justify-center py-12">
       <div className="text-center">
@@ -55,6 +62,7 @@ const App: React.FC = () => {
           icon={<ChartPieIcon />}
           title="Productivity Monitor"
           subtext="Check warehouse productivity and performance."
+          onClick={() => setCurrentPage('productivityMonitor')}
         />
         <DashboardButton
           icon={<AdjustmentsHorizontalIcon />}
@@ -83,13 +91,13 @@ const App: React.FC = () => {
                         <ArrowLeftIcon />
                         Back to Main
                     </button>
-                    <h2 className="text-xl font-bold text-white/90">Truck Monitor</h2>
+                    <h2 className="text-xl font-bold text-white/90">{pageConfig[currentPage]?.title || ''}</h2>
                 </div>
             )}
           <SystemClock />
         </header>
         
-        {currentPage === 'main' ? renderMainPage() : <TruckMonitor />}
+        {currentPage === 'main' ? renderMainPage() : pageConfig[currentPage]?.component}
       </div>
     </main>
   );
